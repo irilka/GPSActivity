@@ -4,4 +4,7 @@
     <string name="date">Date</string>
     <string name="location">Location</string>
     <string name="acceleration">Acceleration</string>
+    <string name="position">Position</string>
+    <string name="bearing">Bearing</string>
+    <string name="altitude">Altitude</string>
 </resources>
