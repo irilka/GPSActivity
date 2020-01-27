@@ -7,4 +7,9 @@
     <string name="position">Position</string>
     <string name="bearing">Bearing</string>
     <string name="altitude">Altitude</string>
+    <string name="location_permission_title">Location Permission</string>
+    <string name="location_permission_text">Turn on location services to continue</string>
+    <string name="gps_disabled_title">GPS disabled</string>
+    <string name="gps_disabled_text">Please enable GPS in Settings to continue</string>
+    <string name="ok">OK</string>
 </resources>

@@ -1,9 +1,6 @@
 package com.example.gpsactivity;
 
-import android.content.Context;
 import android.os.Bundle;
-import android.text.format.DateFormat;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,11 +12,10 @@ import androidx.fragment.app.Fragment;
 
 import com.example.gpsactivity.model.SensorsData;
 
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
-import java.time.format.DateTimeFormatter;
-import java.time.format.FormatStyle;
 import java.util.Date;
-import java.util.Locale;
 
 public class PanelFragment extends Fragment {
 
@@ -28,7 +24,7 @@ public class PanelFragment extends Fragment {
     private TextView speedTextView;
     private TextView accuracyTextView;
     private TextView positionTextView;
-    private TextView accelerationTextView;
+    private TextView bearingTextView;
     private TextView altitudeTextView;
 
     @Override
@@ -40,7 +36,7 @@ public class PanelFragment extends Fragment {
         speedTextView = view.findViewById(R.id.speed_text_view);
         accuracyTextView = view.findViewById(R.id.accuracy_text_view);
         positionTextView = view.findViewById(R.id.position_text_view);
-        accelerationTextView = view.findViewById(R.id.acceleration_text_view);
+        bearingTextView = view.findViewById(R.id.bearing_text_view);
         altitudeTextView = view.findViewById(R.id.altitude_text_view);
 
         return view;
@@ -57,8 +53,19 @@ public class PanelFragment extends Fragment {
             speedTextView.setText("- km/h");
             accuracyTextView.setText("- m");
             positionTextView.setText("-");
-            accelerationTextView.setText("-");
+            bearingTextView.setText("-");
             altitudeTextView.setText("-");
+        }
+        else {
+            speedTextView.setText(sensorsData.bearing + " km/h");
+            accuracyTextView.setText(sensorsData.accuracy + " m");
+
+            DecimalFormat decimalFormat = new DecimalFormat("#.#####");
+            decimalFormat.setRoundingMode(RoundingMode.CEILING);
+            positionTextView.setText("Lat: " + decimalFormat.format(sensorsData.latitude) + ", Long: " + decimalFormat.format(sensorsData.longitude));
+
+            bearingTextView.setText(String.valueOf(sensorsData.bearing));
+            altitudeTextView.setText(String.valueOf(sensorsData.altitude));
         }
     }
 }
