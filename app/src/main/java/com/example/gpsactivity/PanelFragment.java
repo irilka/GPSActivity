@@ -49,22 +49,36 @@ public class PanelFragment extends Fragment {
         String timeString = SimpleDateFormat.getTimeInstance(SimpleDateFormat.MEDIUM).format(date);
         timeTextView.setText(timeString);
 
-        if (sensorsData == null) {
+        if (sensorsData == null || sensorsData.isEmpty()) {
             speedTextView.setText("- km/h");
             accuracyTextView.setText("- m");
             positionTextView.setText("-");
             bearingTextView.setText("-");
             altitudeTextView.setText("-");
+
+            return;
         }
-        else {
+
+        DecimalFormat decimalFormat = new DecimalFormat("#.#####");
+        decimalFormat.setRoundingMode(RoundingMode.CEILING);
+
+        if (sensorsData.bearing != null) {
             speedTextView.setText(sensorsData.bearing + " km/h");
+        }
+
+        if (sensorsData.accuracy != null) {
             accuracyTextView.setText(sensorsData.accuracy + " m");
+        }
 
-            DecimalFormat decimalFormat = new DecimalFormat("#.#####");
-            decimalFormat.setRoundingMode(RoundingMode.CEILING);
+        if (sensorsData.latitude != null && sensorsData.longitude != null) {
             positionTextView.setText("Lat: " + decimalFormat.format(sensorsData.latitude) + ", Long: " + decimalFormat.format(sensorsData.longitude));
+        }
 
+        if (sensorsData.bearing != null) {
             bearingTextView.setText(String.valueOf(sensorsData.bearing));
+        }
+
+        if (sensorsData.altitude != null) {
             altitudeTextView.setText(String.valueOf(sensorsData.altitude));
         }
     }

@@ -22,7 +22,7 @@ import com.example.gpsactivity.R;
 
 import java.lang.ref.WeakReference;
 
-public class GpsManager {
+public class GpsManager implements BaseSensorManager {
 
     private static final int PERMISSION_REQUEST_LOCATION = 99;
     private static final String PERMISSION_NAME = Manifest.permission.ACCESS_FINE_LOCATION;
@@ -34,9 +34,8 @@ public class GpsManager {
 
     private boolean isEnabledLocationUpdates;
 
-    public GpsManager(@NonNull Activity owner, @NonNull LocationListener listener) {
+    public GpsManager(@NonNull Activity owner) {
         this.owner = new WeakReference(owner);
-        locationListener = listener;
         locationManager = (LocationManager) owner.getSystemService(Context.LOCATION_SERVICE);
         isEnabledLocationUpdates = false;
     }
@@ -82,7 +81,7 @@ public class GpsManager {
         }
     }
 
-    public void tryEnableLocationsListening() {
+    public void tryStart() {
         Activity activity = owner.get();
 
         if (activity == null || locationManager == null || isEnabledLocationUpdates) {
@@ -93,18 +92,37 @@ public class GpsManager {
             return;
         }
 
+        locationListener = new LocationListener() {
+            @Override
+            public void onLocationChanged(Location location) {
+                currentData.updateFromLocation(location);
+            }
+
+            @Override
+            public void onStatusChanged(String provider, int status, Bundle extras) {
+
+            }
+
+            @Override
+            public void onProviderEnabled(String provider) {
+
+            }
+
+            @Override
+            public void onProviderDisabled(String provider) {
+
+            }
+        };
+
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 10000, 10, locationListener);
         isEnabledLocationUpdates = true;
     }
 
-    public void disableLocationListening() {
+    public void stop() {
         isEnabledLocationUpdates = false;
         locationManager.removeUpdates(locationListener);
     }
 
-    /**
-     *
-     */
     private void checkGpsSettings() {
         final Activity activity = owner.get();
 
@@ -131,7 +149,6 @@ public class GpsManager {
 
         locationProvider = locationManager.getProvider(LocationManager.GPS_PROVIDER);
 
-        tryEnableLocationsListening();
+        tryStart();
     }
-
 }
