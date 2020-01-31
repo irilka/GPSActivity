@@ -2,7 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/linearLayout"
+    android:id="@+id/main_activity"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
@@ -28,11 +28,10 @@
         app:layout_constraintGuide_end="16dp" />
 
     <view
-        android:id="@+id/view"
+        android:id="@+id/white_background_view"
         class="androidx.constraintlayout.widget.ConstraintLayout"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
-        android:layout_marginTop="30dp"
         android:background="#FFFFFF"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -45,12 +44,12 @@
         android:id="@+id/time_text_view"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="15dp"
         android:textAlignment="center"
         android:textSize="24sp"
         app:layout_constraintEnd_toStartOf="@+id/guideline2"
         app:layout_constraintStart_toStartOf="@+id/guideline"
-        app:layout_constraintTop_toTopOf="@+id/view" />
+        app:layout_constraintTop_toTopOf="@+id/white_background_view" />
 
     <TextView
         android:id="@+id/date_text_view"
@@ -66,12 +65,11 @@
         android:id="@+id/speed_text_view"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
         android:textAlignment="center"
         android:textSize="24sp"
         app:layout_constraintEnd_toStartOf="@+id/guideline3"
         app:layout_constraintStart_toStartOf="@+id/guideline2"
-        app:layout_constraintTop_toTopOf="@+id/view" />
+        app:layout_constraintTop_toTopOf="@+id/time_text_view" />
 
     <TextView
         android:id="@+id/accuracy_text_view"
@@ -159,16 +157,5 @@
         app:layout_constraintEnd_toStartOf="@+id/guideline3"
         app:layout_constraintStart_toEndOf="@+id/position_label"
         app:layout_constraintTop_toBottomOf="@+id/altitude_text_view" />
-
-    <Button
-        android:id="@+id/recording_button"
-        style="@style/Widget.AppCompat.Button.Colored"
-        android:layout_width="170dp"
-        android:layout_height="60dp"
-        android:backgroundTint="#009688"
-        android:text="@string/start_recording"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

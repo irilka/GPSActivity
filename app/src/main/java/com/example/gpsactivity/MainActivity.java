@@ -1,21 +1,26 @@
 package com.example.gpsactivity;
 
 import android.app.AlertDialog;
-import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProviders;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 
 import com.example.gpsactivity.manager.AccelerometerManager;
 import com.example.gpsactivity.manager.DataFileManager;
 import com.example.gpsactivity.manager.GpsManager;
 import com.example.gpsactivity.model.SensorsData;
-import com.example.gpsactivity.model.SensorsDataAdapter;
+import com.example.gpsactivity.model.SensorsDataListViewModel;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -23,8 +28,6 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -36,8 +39,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     final static long WRITE_DATA_TIMER_TASK_DELAY = 0;
     final static long WRITE_DATA_TIMER_TASK_PERIOD = 10000;
 
-    static private String DATA_FILE_NAME = File.separator + "SensorsData.csv";
-
     static private float DEFAULT_ZOOM = 15;
 
     private PanelFragment panel;
@@ -45,7 +46,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     private GpsManager gpsManager;
     private AccelerometerManager accelerometerManager;
-    private DataFileManager dataFileManager;
+    private SensorsDataListViewModel dataListViewModel;
 
     private SensorsData lastSensorsData;
 
@@ -83,21 +84,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        dataListViewModel = ViewModelProviders.of(this).get(SensorsDataListViewModel.class);
+
         initSensorsManagers();
-
-        try {
-            String filePath = getExternalFilesDir(null).getPath() + DATA_FILE_NAME;
-            dataFileManager = new DataFileManager(filePath);
-        } catch (IOException e) {
-            e.printStackTrace();
-
-            new AlertDialog.Builder(this)
-                    .setTitle(R.string.creating_file_error_title)
-                    .setMessage(R.string.creating_file_error_text)
-                    .setPositiveButton(R.string.ok, null)
-                    .create()
-                    .show();
-        }
     }
 
     @Override
@@ -113,10 +102,18 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.main_menu, menu);
+
+        return true;
+    }
+
+    @Override
     protected void onStart() {
         super.onStart();
 
-        Button recordingButton = panel.getView().findViewById(R.id.recording_button);
+        Button recordingButton = findViewById(R.id.recording_button);
         recordingButton.setOnClickListener(recordingClickListener);
 
         updateSensorInfo();
@@ -143,14 +140,13 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     }
 
     @Override
-    protected void onStop() {
-        super.onStop();
-
-        try {
-            dataFileManager.close();
-        } catch (IOException e) {
-            e.printStackTrace();
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == R.id.all_data) {
+            showAllSensorsData();
+            return true;
         }
+
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -214,10 +210,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     }
 
     private void startRecording(Button target) {
-        if (dataFileManager == null) {
-            return;
-        }
-
         writeDataTimerTask = new TimerTask() {
             @Override
             public void run() {
@@ -236,12 +228,13 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     }
 
     private void writeSensorsData() {
-        String writingData = SensorsDataAdapter.adapt(lastSensorsData);
+        dataListViewModel.add(new Date(), lastSensorsData);
+    }
 
-        try {
-            dataFileManager.write(writingData);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    private void showAllSensorsData() {
+        Intent intent = new Intent(this, SensorsDataListActivity.class);
+        startActivity(intent);
+//        NavController nav = Navigation.findNavController(this, R.id.main_activity);
+//        nav.navigate(R.id.show_sensors_data_list);
     }
 }

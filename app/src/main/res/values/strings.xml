@@ -16,4 +16,5 @@
     <string name="stop_recording">Stop recording</string>
     <string name="creating_file_error_title">File Access</string>
     <string name="creating_file_error_text">Can\'t create or open the file for data writing.</string>
+    <string name="all_data">All data</string>
 </resources>
