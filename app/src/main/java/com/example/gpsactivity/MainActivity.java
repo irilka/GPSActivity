@@ -51,18 +51,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private SensorsData lastSensorsData;
 
     private Timer timer = new Timer();
-    private TimerTask sensorsReadTimerTask = new TimerTask() {
-        @Override
-        public void run() {
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    updateSensorInfo();
-                }
-            });
-        }
-    };
-
+    private TimerTask sensorsReadTimerTask;
     private TimerTask writeDataTimerTask;
 
     private View.OnClickListener recordingClickListener = new View.OnClickListener() {
@@ -196,11 +185,24 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     }
 
     private void startTimerTask() {
+        sensorsReadTimerTask = new TimerTask() {
+            @Override
+            public void run() {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        updateSensorInfo();
+                    }
+                });
+            }
+        };
+
         timer.schedule(sensorsReadTimerTask, SENSORS_READ_TIMER_TASK_DELAY, SENSORS_READ_TIMER_TASK_PERIOD);
     }
 
     private void stopTimerTask() {
-        timer.cancel();
+        sensorsReadTimerTask.cancel();
+        sensorsReadTimerTask = null;
     }
 
     private void stopRecording(Button target) {
