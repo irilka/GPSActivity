@@ -2,7 +2,10 @@ package com.example.gpsactivity.model;
 
 import android.location.Location;
 
+import java.util.Date;
+
 public class SensorsData {
+    public Date date = null;
     public Double latitude = null;
     public Double longitude = null;
     public Double altitude = null;
@@ -20,7 +23,6 @@ public class SensorsData {
      * @param otherData from it new values will be set.
      */
     public void merge(SensorsData otherData) {
-
         if (otherData.latitude != null) {
             latitude = otherData.latitude;
         }
@@ -87,7 +89,7 @@ public class SensorsData {
     }
 
     public boolean isEmpty() {
-        if (latitude != null || longitude != null || altitude != null || bearing != null ||
+        if (date != null || latitude != null || longitude != null || altitude != null || bearing != null ||
             speed != null || accuracy != null || zPosition != null || yPosition != null || zPosition != null) {
             return false;
         }

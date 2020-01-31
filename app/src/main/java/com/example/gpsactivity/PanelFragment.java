@@ -44,22 +44,26 @@ public class PanelFragment extends Fragment {
         return view;
     }
 
-    public void setInfo(@NonNull Date date, @Nullable SensorsData sensorsData) {
-        String dateString = SimpleDateFormat.getDateInstance(SimpleDateFormat.MEDIUM).format(date);
-        dateTextView.setText(dateString);
-
-        String timeString = SimpleDateFormat.getTimeInstance(SimpleDateFormat.MEDIUM).format(date);
-        timeTextView.setText(timeString);
+    public void setInfo(@Nullable SensorsData sensorsData) {
+        dateTextView.setText(null);
+        timeTextView.setText(null);
+        speedTextView.setText("- km/h");
+        accuracyTextView.setText("- m");
+        locationTextView.setText("-");
+        bearingTextView.setText("-");
+        altitudeTextView.setText("-");
+        positionTextView.setText("X: -, Y: -, Z: -");
 
         if (sensorsData == null || sensorsData.isEmpty()) {
-            speedTextView.setText("- km/h");
-            accuracyTextView.setText("- m");
-            locationTextView.setText("-");
-            bearingTextView.setText("-");
-            altitudeTextView.setText("-");
-            positionTextView.setText("X: -, Y: -, Z: -");
-
             return;
+        }
+
+        if (sensorsData != null) {
+            String dateString = SimpleDateFormat.getDateInstance(SimpleDateFormat.MEDIUM).format(sensorsData.date);
+            dateTextView.setText(dateString);
+
+            String timeString = SimpleDateFormat.getTimeInstance(SimpleDateFormat.MEDIUM).format(sensorsData.date);
+            timeTextView.setText(timeString);
         }
 
         DecimalFormat decimalFormat = new DecimalFormat("#.####");

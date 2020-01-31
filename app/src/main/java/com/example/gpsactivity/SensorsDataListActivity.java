@@ -41,6 +41,6 @@ public class SensorsDataListActivity extends AppCompatActivity implements DataRo
 
     @Override
     public void onListFragmentInteraction(SensorsData data) {
-        panel.setInfo(new Date(), data);
+        panel.setInfo(data);
     }
 }

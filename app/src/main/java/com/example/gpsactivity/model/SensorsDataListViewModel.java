@@ -71,7 +71,7 @@ public class SensorsDataListViewModel extends ViewModel {
         return newValue;
     }
 
-    public void add(Date date, SensorsData sensorsData) {
+    public void add(SensorsData sensorsData) {
         cachedData.put(Integer.toString(dataCount++), sensorsData);
 
         String writingData = SensorsDataAdapter.pack(sensorsData);

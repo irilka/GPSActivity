@@ -174,6 +174,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         SensorsData data = gpsManager.currentData;
         data.merge(accelerometerManager.currentData);
+        data.date = new Date();
         lastSensorsData = data;
 
         if (data.latitude != null && data.longitude != null) {
@@ -191,7 +192,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             map.moveCamera(CameraUpdateFactory.newLatLngZoom(mapLocation, zoom));
         }
 
-        panel.setInfo(new Date(), data);
+        panel.setInfo(data);
     }
 
     private void startTimerTask() {
@@ -228,7 +229,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     }
 
     private void writeSensorsData() {
-        dataListViewModel.add(new Date(), lastSensorsData);
+        dataListViewModel.add(lastSensorsData);
     }
 
     private void showAllSensorsData() {
