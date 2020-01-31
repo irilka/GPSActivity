@@ -84,22 +84,22 @@
         app:layout_constraintTop_toBottomOf="@+id/speed_text_view" />
 
     <TextView
-        android:id="@+id/position_label"
+        android:id="@+id/location_label"
         android:layout_width="90dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="@string/position"
+        android:text="@string/location"
         app:layout_constraintStart_toStartOf="@+id/guideline"
         app:layout_constraintTop_toBottomOf="@+id/date_text_view" />
 
     <TextView
-        android:id="@+id/position_text_view"
+        android:id="@+id/location_text_view"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="5dp"
         app:layout_constraintEnd_toStartOf="@+id/guideline3"
-        app:layout_constraintStart_toEndOf="@+id/position_label"
-        app:layout_constraintTop_toTopOf="@+id/position_label" />
+        app:layout_constraintStart_toEndOf="@+id/location_label"
+        app:layout_constraintTop_toTopOf="@+id/location_label" />
 
     <TextView
         android:id="@+id/acceleration_label"
@@ -108,7 +108,7 @@
         android:layout_marginTop="5dp"
         android:text="@string/bearing"
         app:layout_constraintStart_toStartOf="@+id/guideline"
-        app:layout_constraintTop_toBottomOf="@+id/position_label" />
+        app:layout_constraintTop_toBottomOf="@+id/location_label" />
 
     <TextView
         android:id="@+id/bearing_text_view"
@@ -124,9 +124,7 @@
         android:layout_width="90dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
-        android:layout_marginBottom="16dp"
         android:text="@string/altitude"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="@+id/guideline"
         app:layout_constraintTop_toBottomOf="@+id/acceleration_label" />
 
@@ -138,6 +136,29 @@
         app:layout_constraintEnd_toStartOf="@+id/guideline3"
         app:layout_constraintStart_toEndOf="@+id/altitude_label"
         app:layout_constraintTop_toTopOf="@+id/altitude_label" />
+
+    <TextView
+        android:id="@+id/position_label"
+        android:layout_width="90dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="15dp"
+        android:text="@string/acceleration"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/guideline"
+        app:layout_constraintTop_toBottomOf="@+id/altitude_text_view" />
+
+    <TextView
+        android:id="@+id/position_text_view"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="15dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/guideline3"
+        app:layout_constraintStart_toEndOf="@+id/position_label"
+        app:layout_constraintTop_toBottomOf="@+id/altitude_text_view" />
 
     <Button
         android:id="@+id/recording_button"

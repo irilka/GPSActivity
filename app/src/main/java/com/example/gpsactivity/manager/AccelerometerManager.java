@@ -16,7 +16,7 @@ public class AccelerometerManager implements BaseSensorManager, SensorEventListe
 
     public AccelerometerManager(@NonNull Activity owner) {
         sensorManager = (SensorManager) owner.getSystemService(Context.SENSOR_SERVICE);
-        sensor = sensorManager.getDefaultSensor(Sensor.TYPE_LINEAR_ACCELERATION);
+        sensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
     }
 
     @Override
