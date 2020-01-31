@@ -38,6 +38,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     static private String DATA_FILE_NAME = File.separator + "SensorsData.csv";
 
+    static private float DEFAULT_ZOOM = 15;
+
     private PanelFragment panel;
     private GoogleMap map;
 
@@ -73,6 +75,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             }
         }
     };
+
+    private boolean isMapInit = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -152,6 +156,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     @Override
     public void onMapReady(GoogleMap googleMap) {
         map = googleMap;
+        isMapInit = true;
 
         gpsManager.checkLocationPermission();
     }
@@ -178,7 +183,16 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         if (data.latitude != null && data.longitude != null) {
             LatLng mapLocation = new LatLng(data.latitude, data.longitude);
             map.addMarker(new MarkerOptions().position(mapLocation));
-            map.moveCamera(CameraUpdateFactory.newLatLng(mapLocation));
+
+            float zoom = map.getCameraPosition().zoom;
+
+            // set default first zoom
+            if (isMapInit) {
+                zoom = DEFAULT_ZOOM;
+                isMapInit = false;
+            }
+
+            map.moveCamera(CameraUpdateFactory.newLatLngZoom(mapLocation, zoom));
         }
 
         panel.setInfo(new Date(), data);
